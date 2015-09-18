@@ -29,6 +29,9 @@ adc.write([CONFIG_HI, CONFIG_LO], function(err){});
 // Read configuration back
 readConfig(adc);
 readValue(adc, 0);
+readValue(adc, 1);
+readValue(adc, 2);
+readValue(adc, 3);
 
 
 function readConfig(adc) {
