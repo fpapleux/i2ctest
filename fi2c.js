@@ -41,6 +41,23 @@ adc.read(2, function(err, res) {
 	}
 });
 
+adc.readValue(0);
+
+function adc.readValue(channel) {
+	if ((channel < 0) || (channel >3)) {
+		throw err;
+	}	
+	config_hi = CONFIG_HI | CONFIG_HI_READ;
+	switch (channel) {
+		case 0: config_hi = config_hi | CONFIG_HI_A0;
+		case 1: config_hi = config_hi | CONFIG_HI_A1;
+		case 2: config_hi = config_hi | CONFIG_HI_A2;
+		case 3: config_hi = config_hi | CONFIG_HI_A3;		
+	}
+	console("check this out");
+}
+
+
 // Read the conversion register
 readConversionRegister();
 
