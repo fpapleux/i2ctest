@@ -33,10 +33,9 @@ readValue(adc, 1);
 readValue(adc, 2);
 readValue(adc, 3);
 
-
 function readConfig(adc) {
 	adc.writeByte(PTR_CONFIG_REG, function(err){});
-	result = adc.read(2, function(err, res) {
+	adc.read(2, function(err, res) {
 		if (! err) {
 			// console.log(res);
 			config = (0 | res[0]) << 8;
@@ -47,7 +46,6 @@ function readConfig(adc) {
 			return config;
 		}
 	});
-	console.log("config Beta: " + result);
 }
 
 function readValue(adc, channel) {
