@@ -61,7 +61,7 @@ function readValue(adc, channel) {
 		case 2: config_hi = config_hi | CONFIG_HI_A2;
 		case 3: config_hi = config_hi | CONFIG_HI_A3;		
 	}
-	console("check this out");
+	console.log("check this out");
 	// Tell config register to read value into conversion register
 	adc.writeByte(PTR_CONFIG_REG, function(err){});
 	adc.write([config_hi, CONFIG_LO], function(err){});
