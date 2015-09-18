@@ -27,23 +27,30 @@ adc.writeByte(PTR_CONFIG_REG, function(err){});
 adc.write([CONFIG_HI, CONFIG_LO], function(err){});
 
 // Read configuration back
-adc.writeByte(PTR_CONFIG_REG, function(err){});
-adc.read(2, function(err, res) {
-	if (! err) {
-		// console.log(res);
-		config = (0 | res[0]) << 8;
-		config = config | res[1];
+readConfig(adc);
+readValue(adc, 0);
 
-		str = config.toString(16);
-		console.log ("0x"+str);
-		str = config.toString(2);
-		console.log("0b"+str);
-	}
-});
 
-adc.readValue(0);
+function readConfig(adc) {
+	adc.writeByte(PTR_CONFIG_REG, function(err){});
+	result = adc.read(2, function(err, res) {
+		if (! err) {
+			// console.log(res);
+			config = (0 | res[0]) << 8;
+			config = config | res[1];
 
-function adc.readValue(channel) {
+			str = config.toString(16);
+			console.log ("0x"+str);
+			str = config.toString(2);
+			console.log("0b"+str);
+			return config;
+		}
+	console.log("config: " + result);
+	});
+
+}
+
+function readValue(adc, channel) {
 	if ((channel < 0) || (channel >3)) {
 		throw err;
 	}	
@@ -55,30 +62,10 @@ function adc.readValue(channel) {
 		case 3: config_hi = config_hi | CONFIG_HI_A3;		
 	}
 	console("check this out");
-}
-
-
-// Read the conversion register
-readConversionRegister();
-
-// Tell ADC to read value on pin A0
-adc.writeByte(PTR_CONFIG_REG, function(err){});
-adc.write([CONFIG_HI | CONFIG_HI_READ | CONFIG_HI_A0, CONFIG_LO], function(err){});
-
-while (true) {
-	adc.writeByte(PTR_CONVERSION_REG, function(err){});
-	adc.read(2, function(err, res) {
-		if (! err) {
-			result = (0 | res[0]) << 8;
-			result = (result | res[1]);
-			console.log ("value: " + result);
-		}
-	});
-}
-
-
-
-function readConversionRegister() {
+	// Tell config register to read value into conversion register
+	adc.writeByte(PTR_CONFIG_REG, function(err){});
+	adc.write([config_hi, CONFIG_LO], function(err){});
+	//  Read the conversion register
 	adc.writeByte(PTR_CONVERSION_REG, function(err){});
 	adc.read(2, function(err, res) {
 		if (! err) {
