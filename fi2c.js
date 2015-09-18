@@ -10,7 +10,7 @@ PTR_CONFIG_REG = 0x01;
 PTR_LO_REG = 0x02;
 PTR_HI_REG = 0x03;
 
-CONFIG_HI = 0x45; // 0b01000101;
+CONFIG_HI = 0x44; // 0b01000100;
 CONFIG_LO = 0xA3; // 0b10000011;
 
 CONFIG_HI_READ = 0x80;
@@ -40,14 +40,11 @@ function readConfig(adc) {
 			config = config | res[1];
 
 			str = config.toString(16);
-			console.log ("0x"+str);
-			str = config.toString(2);
-			console.log("0b"+str);
+			console.log ("Config Alpha: 0x"+str.toUpperCase());
 			return config;
 		}
-	console.log("config: " + result);
 	});
-
+	console.log("config Beta: " + result);
 }
 
 function readValue(adc, channel) {
@@ -61,7 +58,6 @@ function readValue(adc, channel) {
 		case 2: config_hi = config_hi | CONFIG_HI_A2;
 		case 3: config_hi = config_hi | CONFIG_HI_A3;		
 	}
-	console.log("check this out");
 	// Tell config register to read value into conversion register
 	adc.writeByte(PTR_CONFIG_REG, function(err){});
 	adc.write([config_hi, CONFIG_LO], function(err){});
