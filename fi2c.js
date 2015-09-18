@@ -1,6 +1,7 @@
 // Implements I2C communications to an ADS1115 ADC
 
 var i2c = require ('i2c');
+var sleep = require('sleep');
 
 I2C_PATH = '/dev/i2c-1';
 ADC_ADDR = 0x48;
@@ -15,9 +16,9 @@ CONFIG_LO = 0xA3; // 0b10000011;
 
 CONFIG_HI_READ = 0x80;
 CONFIG_HI_A0 = 0x40;
-CONFIG_HI_A1 = 0x41;
-CONFIG_HI_A2 = 0x42;
-CONFIG_HI_A3 = 0x43;
+CONFIG_HI_A1 = 0x50;
+CONFIG_HI_A2 = 0x60;
+CONFIG_HI_A3 = 0x70;
 
 // var adc = new i2c(ADC_ADDR, I2C_PATH);
 var adc = new i2c(0x48);
@@ -29,9 +30,13 @@ adc.write([CONFIG_HI, CONFIG_LO], function(err){});
 // Read configuration back
 readConfig(adc);
 readValue(adc, 0);
+sleep(1);
 readValue(adc, 1);
+sleep(1);
 readValue(adc, 2);
+sleep(1);
 readValue(adc, 3);
+sleep(1);
 
 function readConfig(adc) {
 	adc.writeByte(PTR_CONFIG_REG, function(err){});
