@@ -67,7 +67,9 @@ function readValue(adc, channel) {
 	// Tell config register to read value into conversion register
 	adc.writeByte(PTR_CONFIG_REG, function(err){});
 	adc.write([config_hi, CONFIG_LO], function(err){});
+	
 	//  Read the conversion register
+	sleep.sleep(1);
 	adc.writeByte(PTR_CONVERSION_REG, function(err){});
 	adc.read(2, function(err, res) {
 		if (! err) {
