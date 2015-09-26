@@ -30,13 +30,9 @@ adc.write([CONFIG_HI, CONFIG_LO], function(err){});
 // Read configuration back
 readConfig(adc);
 readValue(adc, 0);
-sleep.sleep(1);
 readValue(adc, 1);
-sleep.sleep(1);
 readValue(adc, 2);
-sleep.sleep(1);
 readValue(adc, 3);
-sleep.sleep(1);
 
 function readConfig(adc) {
 	adc.writeByte(PTR_CONFIG_REG, function(err){});
@@ -71,6 +67,7 @@ function readValue(adc, channel) {
 	//  Read the conversion register
 	sleep.sleep(1);
 	adc.writeByte(PTR_CONVERSION_REG, function(err){});
+	sleep.sleep(1);
 	adc.read(2, function(err, res) {
 		if (! err) {
 			result = (0 | res[0]) << 8;
